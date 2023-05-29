@@ -20,6 +20,7 @@ os.environ['OPENAI_API_KEY'] = API_KEY
 # App framework
 st.title('🦜🔗 Detailed Story Generator')
 prompt = st.text_input('Write details on the characters')
+prompt1 = st.text_input('Write movie reference')
 
 # Prompt templates
 character_template = PromptTemplate(
@@ -29,7 +30,7 @@ character_template = PromptTemplate(
 
 theme_template = PromptTemplate(
     input_variables = ['title', 'imdb_search'],
-    template='write me a story theme based on this title TITLE: {title} while leveraging this imdb search: {imdb_search} '
+    template='You are a story writer for kids. Write me a story theme based on this title: {title} while leveraging this imdb search: {imdb_search} '
 )
 
 # Memory
@@ -47,7 +48,7 @@ wiki = WikipediaAPIWrapper()
 # Show stuff to the screen if there's a prompt
 if prompt:
     title = character_chain.run(prompt)
-    imdb_search = wiki.run(prompt)
+    imdb_search = wiki.run(prompt1)
     theme = theme_chain.run(title=title, imdb_search=imdb_search)
 
     st.write(title)
